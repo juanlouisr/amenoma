@@ -4,7 +4,7 @@ import ControlBar from "@/components/ControlBar.vue";
 </script>
 
 <template>
-  <div class="flex m-0 p-0 ab">
+  <div class="flex m-0 p-0">
     <SideBar />
     <ControlBar />
     <RouterView />
