@@ -26,3 +26,5 @@ export class ChapterData {
     public dateOfRelease?: string
   ) {}
 }
+
+export declare type Pair = { [key: string]: string };
