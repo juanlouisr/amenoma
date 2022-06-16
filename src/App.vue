@@ -8,14 +8,14 @@ var showSideControlBar = ref<boolean>();
 </script>
 
 <template>
-  <div class="flex m-0 p-0 ab">
+  <div class="flex m-0 p-0">
     <Transition name="sidebar">
       <SideBar v-show="showSideControlBar" class="z-10" />
     </Transition>
     <Transition name="controlbar">
       <ControlBar v-show="showSideControlBar" class="z-0" />
     </Transition>
-    <div class="flex-1 h-screen contain">
+    <div class="flex-grow h-screen flex flex-col">
       <NavBar
         @toggle-side-control-bar="(show) => (showSideControlBar = show)"
       ></NavBar>

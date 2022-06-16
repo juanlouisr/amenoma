@@ -12,8 +12,8 @@ function toggleShow() {
 </script>
 
 <template>
-  <header class="flex flex-row bg-gray-900 sticky">
-    <a
+  <header class="flex bg-gray-900 shrink-0">
+    <button
       class="burger my-auto mx-4 hover:cursor-pointer"
       @click="$emit('toggleSideControlBar', toggleShow())"
     >
@@ -22,7 +22,7 @@ function toggleShow() {
         <div class="w-8 h-0.5 bg-white"></div>
         <div class="w-8 h-0.5 bg-white"></div>
       </div>
-    </a>
+    </button>
     <h1 class="my-auto mx-3 font-bold text-white">Judul animu</h1>
   </header>
 </template>
