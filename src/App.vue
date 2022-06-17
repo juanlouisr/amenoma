@@ -5,6 +5,19 @@ import NavBar from "@/components/NavBar.vue";
 import { ref } from "@vue/reactivity";
 
 var showSideControlBar = ref<boolean>();
+
+const res = await Promise.resolve(
+  fetch(
+    "https://readnovelfull.com/tensei-shitara-slime-datta-ken/chapter-01-lets-see-what-i-can-do.html",
+    {
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36",
+      },
+    }
+  ).then((val) => val.text())
+);
+console.log(res);
 </script>
 
 <template>
