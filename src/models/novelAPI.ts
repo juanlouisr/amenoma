@@ -11,9 +11,9 @@ export abstract class MainAPI {
 
   constructor(public mainUrl: string, public name: string) {}
 
-  abstract load(url: string): LoadResponse | null;
+  abstract load(url: string): Promise<LoadResponse | null>;
 
-  abstract loadContent(url: string): string;
+  abstract loadContent(url: string): Promise<string>;
 
   fixUrl(url: string): string {
     if (url.startsWith("http")) {
@@ -31,11 +31,16 @@ export abstract class MainAPI {
   }
 }
 
+export function getCorsProxyUrl(): string {
+  return import.meta.env.VITE_CORS_PROXY;
+}
+
 declare global {
   interface String {
     textClean(): string;
   }
 }
+
 String.prototype.textClean = (): string => {
   return String(this)
     .replace(/\\.([A-z]|\\+)/, "$1")
