@@ -3,24 +3,8 @@ import SideBar from "@/components/SideBar.vue";
 import ControlBar from "@/components/ControlBar.vue";
 import NavBar from "@/components/NavBar.vue";
 import { ref } from "@vue/reactivity";
-import { onMounted } from "vue";
-import { getCorsProxyUrl } from "./models/novelAPI";
 
 var showSideControlBar = ref<boolean>();
-
-onMounted(async () => {
-  await Promise.resolve(
-    fetch(getCorsProxyUrl() + "https://indowebnovel.id", {
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36",
-      },
-    })
-      .then((val) => val.text())
-      .then((e) => console.log(e))
-      .catch(console.log)
-  );
-});
 </script>
 
 <template>
