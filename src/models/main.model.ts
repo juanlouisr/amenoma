@@ -4,7 +4,7 @@ export class LoadResponse {
     public name: string,
     public data: ChapterData[],
     public author?: string,
-    public posterUrl?: string,
+    public posterUrl?: string | null,
     public synopsis?: string,
     public tags?: string[],
     public status: Status = Status.NULL

@@ -31,19 +31,17 @@ export abstract class MainAPI {
   }
 }
 
-export function getCorsProxyUrl(): string {
-  return import.meta.env.VITE_CORS_PROXY;
+export function prefixUrl(url: string): string {
+  return import.meta.env.VITE_CORS_PROXY + url;
 }
 
-declare global {
-  interface String {
-    textClean(): string;
-  }
+export function textClean(text?: string): string | undefined {
+  return text?.replace(/\\.([A-z]|\\+)/g, "$1").replace(/\\+([A-z])/g, "$1");
 }
 
-String.prototype.textClean = (): string => {
-  return String(this)
-    .replace(/\\.([A-z]|\\+)/, "$1")
-    .replace(/\\+([A-z])/, "$1");
-};
-export {};
+export function removeScript(text?: string): string | undefined {
+  return text?.replace(
+    /<script(?:(?!\/\/)(?!\/\*)[^'"]|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\/\/.*(?:\n)|\/\*(?:(?:.|\s))*?\*\/)*?<\/script>/g,
+    ""
+  );
+}
