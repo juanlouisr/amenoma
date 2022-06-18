@@ -15,7 +15,7 @@ var showSideControlBar = ref<boolean>();
     <Transition name="controlbar">
       <ControlBar v-show="showSideControlBar" class="z-0" />
     </Transition>
-    <div class="flex-grow h-screen flex flex-col">
+    <div class="flex-grow h-screen flex flex-col overflow-x-hidden min-w-0">
       <NavBar
         @toggle-side-control-bar="(show) => (showSideControlBar = show)"
       ></NavBar>

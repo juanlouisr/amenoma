@@ -12,7 +12,7 @@ onMounted(async () => {
   const ctn = await provider.load(
     "https://azynovel.com/chapter/under-the-oak-tree"
   );
-  title.value = ctn.name ?? "unknown";
+  title.value = ctn.name;
   data.chapterData = ctn.data;
 });
 </script>
