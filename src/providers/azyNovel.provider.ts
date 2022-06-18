@@ -26,9 +26,10 @@ export class AzyNovelProvider extends MainAPI {
       htmlDoc.querySelector("div.media-content > div > p:nth-child(2) > a")
         ?.textContent ?? "unknown";
 
-    const posterUrl = htmlDoc
-      .querySelector("div.media-left > figure > img")
-      ?.getAttribute("data-src");
+    const posterUrl =
+      htmlDoc
+        .querySelector("div.media-left > figure > img")
+        ?.getAttribute("data-src") ?? "";
 
     const synopsis =
       htmlDoc.querySelector("div.column.is-9 > div.content")?.textContent ?? "";

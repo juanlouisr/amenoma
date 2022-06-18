@@ -9,7 +9,7 @@ export abstract class MainAPI {
   public orderBys: Pair[] = [];
   public tags: Pair[] = [];
 
-  constructor(public mainUrl: string, public name: string) {}
+  constructor(readonly mainUrl: string, readonly name: string) {}
 
   abstract load(url: string): Promise<LoadResponse | null>;
 
