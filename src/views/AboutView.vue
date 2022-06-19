@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div>
     <h1>
       This is an about page This is an about page This is an about page This is
       an about page This is an about page This is an about page This is an about

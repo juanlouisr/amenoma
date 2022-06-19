@@ -39,6 +39,7 @@ export function textClean(text?: string): string | undefined {
   return text?.replace(/\\.([A-z]|\\+)/g, "$1").replace(/\\+([A-z])/g, "$1");
 }
 
+// IMPORTANT FOR REMOVING XSS / CROSS SITE SCRIPTING
 export function removeScript(text?: string): string | undefined {
   return text?.replace(
     /<script(?:(?!\/\/)(?!\/\*)[^'"]|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\/\/.*(?:\n)|\/\*(?:(?:.|\s))*?\*\/)*?<\/script>/g,
