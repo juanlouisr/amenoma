@@ -37,6 +37,9 @@ export const useNovelStore = defineStore({
     async loadNovel(url: string) {
       this.currNovel = await this.currProvider?.load(url);
     },
+    async loadNovelFromName(name: string) {
+      this.currNovel = await this.currProvider?.loadFromName(name);
+    },
     async getChapter(url: string) {
       return this.currProvider?.loadContent(url);
     },

@@ -5,7 +5,6 @@ import { useRoute, useRouter } from "vue-router";
 import { useNovelStore } from "@/stores/novel";
 import { useDataStore } from "@/stores/data";
 import type { LoadResponse } from "@/models/main.model";
-import type { MainAPI } from "@/models/novelAPI";
 
 const loaded = ref(false);
 const content = ref("loading");
@@ -21,7 +20,7 @@ onBeforeMount(async () => {
   data.type = "novel";
   loaded.value = false;
   loadProvider();
-  await loadNovel(novelAPI.currProvider!);
+  await loadNovel();
   await loadChapter(novelAPI.currNovel!, Number(route.params.chapter));
 });
 
@@ -55,8 +54,11 @@ function loadProvider() {
   data.provider = provider;
 }
 
-async function loadNovel(provider: MainAPI) {
-  await novelAPI.loadNovel(`${provider.mainUrl}/novel/${name}`);
+async function loadNovel() {
+  if (data.name && novelAPI.currNovel?.name === data.name) {
+    return;
+  }
+  await novelAPI.loadNovelFromName(name);
   if (!novelAPI.currNovel) {
     router.push("/error");
     return;

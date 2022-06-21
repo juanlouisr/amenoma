@@ -6,6 +6,10 @@ export class AzyNovelProvider extends MainAPI {
     super("https://azynovel.com", "AzyNovel");
   }
 
+  override async loadFromName(name: string): Promise<LoadResponse> {
+    return this.load(`${this.mainUrl}/novel/${name}`);
+  }
+
   override async load(url: string): Promise<LoadResponse> {
     const parser = new DOMParser();
     const res = await Promise.resolve(

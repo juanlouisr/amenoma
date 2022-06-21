@@ -13,6 +13,8 @@ export abstract class MainAPI {
 
   abstract load(url: string): Promise<LoadResponse | null>;
 
+  abstract loadFromName(name: string): Promise<LoadResponse | null>;
+
   abstract loadContent(url: string): Promise<string>;
 
   fixUrl(url: string): string {
