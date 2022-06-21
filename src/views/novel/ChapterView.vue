@@ -36,8 +36,10 @@ watch(
         data.currentIdx++;
         loaded.value = true;
         data.nextContent = "";
-        data.nextContent =
-          (await novelAPI.getChapter(data.chaperList[nextIdx + 1].url)) ?? "";
+        if (nextIdx + 1 !== novelAPI.currNovel?.data.length) {
+          data.nextContent =
+            (await novelAPI.getChapter(data.chaperList[nextIdx + 1].url)) ?? "";
+        }
         return;
       }
     }
@@ -47,11 +49,12 @@ watch(
 
 function loadProvider() {
   novelAPI.updateProvider(provider);
-  if (!novelAPI.currProvider) {
-    router.push("/error");
+  if (novelAPI.currProvider) {
+    data.provider = provider;
+  } else {
+    router.replace("/error");
     return;
   }
-  data.provider = provider;
 }
 
 async function loadNovel() {
@@ -60,7 +63,7 @@ async function loadNovel() {
   }
   await novelAPI.loadNovelFromName(name);
   if (!novelAPI.currNovel) {
-    router.push("/error");
+    router.replace("/error");
     return;
   }
   data.namedUrl = name;
@@ -71,21 +74,23 @@ async function loadChapter(
   novel: LoadResponse,
   chapter: number
 ): Promise<void> {
-  if (chapter < 1 || chapter - 1 > novel.data.length) {
-    router.push(`/novel/${provider}/${name}`);
-    return;
+  if (chapter && chapter <= novel.data.length) {
+    const val = await novelAPI.getChapter(novel.data[chapter - 1].url);
+    if (!val) {
+      return;
+    }
+    content.value = val;
+    data.currentIdx = chapter - 1;
+    data.chaperList = novel.data;
+    loaded.value = true;
+    data.nextContent = "";
+    if (chapter < novel.data.length) {
+      data.nextContent =
+        (await novelAPI.getChapter(novel.data[chapter].url)) ?? "";
+    }
+  } else {
+    router.replace(`/novel/${provider}/${name}`);
   }
-  const val = await novelAPI.getChapter(novel.data[chapter - 1].url);
-  if (!val) {
-    router.push(`/novel/${provider}/${name}`);
-    return;
-  }
-  content.value = val;
-  data.currentIdx = chapter - 1;
-  data.chaperList = novel.data;
-  loaded.value = true;
-  data.nextContent = "";
-  data.nextContent = (await novelAPI.getChapter(novel.data[chapter].url)) ?? "";
 }
 </script>
 
