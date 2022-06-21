@@ -62,12 +62,13 @@ async function loadNovel() {
     return;
   }
   await novelAPI.loadNovelFromName(name);
-  if (!novelAPI.currNovel) {
-    router.replace("/error");
+  if (novelAPI.currNovel) {
+    data.namedUrl = name;
+    data.name = novelAPI.currNovel.name;
+    data.chaperList = novelAPI.currNovel.data;
     return;
   }
-  data.namedUrl = name;
-  data.name = novelAPI.currNovel.name;
+  router.replace("/error");
 }
 
 async function loadChapter(
@@ -81,7 +82,6 @@ async function loadChapter(
     }
     content.value = val;
     data.currentIdx = chapter - 1;
-    data.chaperList = novel.data;
     loaded.value = true;
     data.nextContent = "";
     if (chapter < novel.data.length) {
