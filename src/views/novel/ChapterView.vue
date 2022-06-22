@@ -51,10 +51,9 @@ function loadProvider() {
   novelAPI.updateProvider(provider);
   if (novelAPI.currProvider) {
     data.provider = provider;
-  } else {
-    router.replace("/error");
     return;
   }
+  router.replace("/error");
 }
 
 async function loadNovel() {
@@ -63,7 +62,7 @@ async function loadNovel() {
   }
   await novelAPI.loadNovelFromName(name);
   if (novelAPI.currNovel) {
-    data.namedUrl = name;
+    data.nameRoute = name;
     data.name = novelAPI.currNovel.name;
     data.chaperList = novelAPI.currNovel.data;
     return;
@@ -88,9 +87,9 @@ async function loadChapter(
       data.nextContent =
         (await novelAPI.getChapter(novel.data[chapter].url)) ?? "";
     }
-  } else {
-    router.replace(`/novel/${provider}/${name}`);
+    return;
   }
+  router.replace(`/novel/${provider}/${name}`);
 }
 </script>
 

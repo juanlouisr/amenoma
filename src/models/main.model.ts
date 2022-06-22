@@ -11,6 +11,18 @@ export class LoadResponse {
   ) {}
 }
 
+export class SearchResponse {
+  constructor(
+    public name: string,
+    public url: string,
+    public nameRoute: string,
+    public apiName: string,
+    public rating?: number | null,
+    public posterUrl?: string | null,
+    public latestChapter?: string | null
+  ) {}
+}
+
 export enum Status {
   NULL = 0,
   ONGOING = 1,

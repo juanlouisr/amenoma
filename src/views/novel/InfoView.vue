@@ -26,18 +26,18 @@ function loadProvider() {
   novelAPI.updateProvider(provider);
   if (novelAPI.currProvider) {
     data.provider = provider;
-  } else {
-    router.push("/error");
     return;
   }
+  router.replace("/error");
 }
+
 async function loadNovel() {
   if (data.name && novelAPI.currNovel?.name === data.name) {
     return;
   }
   await novelAPI.loadNovelFromName(name);
   if (novelAPI.currNovel) {
-    data.namedUrl = name;
+    data.nameRoute = name;
     data.name = novelAPI.currNovel.name;
     data.chaperList = novelAPI.currNovel.data;
     return;

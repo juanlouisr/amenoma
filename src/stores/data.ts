@@ -7,17 +7,17 @@ export const useDataStore = defineStore({
     type: "",
     provider: "",
     name: "",
-    namedUrl: "",
+    nameRoute: "",
     currentIdx: 0,
     nextContent: "",
     chaperList: [] as ChapterData[],
   }),
   getters: {
     getRouteName: (state) => {
-      return `/${state.type}/${state.provider}/${state.namedUrl}`;
+      return `/${state.type}/${state.provider}/${state.nameRoute}`;
     },
     getRouteChapter: (state) => {
-      return `/${state.type}/${state.provider}/${state.namedUrl}/${state.currentIdx}`;
+      return `/${state.type}/${state.provider}/${state.nameRoute}/${state.currentIdx}`;
     },
   },
   actions: {

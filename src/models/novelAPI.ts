@@ -1,4 +1,4 @@
-import type { LoadResponse, Pair } from "./main.model";
+import type { LoadResponse, Pair, SearchResponse } from "./main.model";
 
 export const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36";
@@ -16,6 +16,8 @@ export abstract class MainAPI {
   abstract loadFromName(name: string): Promise<LoadResponse | null>;
 
   abstract loadContent(url: string): Promise<string>;
+
+  abstract search(query: string): Promise<SearchResponse[]>;
 
   fixUrl(url: string): string {
     if (url.startsWith("http")) {
