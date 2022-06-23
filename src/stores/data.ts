@@ -9,6 +9,7 @@ export const useDataStore = defineStore({
     name: "",
     nameRoute: "",
     currentIdx: 0,
+    currentContent: "",
     nextContent: "",
     chaperList: [] as ChapterData[],
   }),
@@ -25,4 +26,5 @@ export const useDataStore = defineStore({
       this.$reset;
     },
   },
+  persist: true,
 });

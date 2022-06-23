@@ -7,7 +7,6 @@ import { useDataStore } from "@/stores/data";
 import type { LoadResponse } from "@/models/main.model";
 
 const loaded = ref(false);
-const content = ref("loading");
 const data = useDataStore();
 const novelAPI = useNovelStore();
 const route = useRoute();
@@ -32,7 +31,7 @@ watch(
     const oldIdx = Number(oldId) - 1;
     if (nextIdx - 1 === oldIdx) {
       if (data.nextContent) {
-        content.value = data.nextContent;
+        data.currentContent = data.nextContent;
         data.currentIdx++;
         loaded.value = true;
         data.nextContent = "";
@@ -57,8 +56,12 @@ function loadProvider() {
 }
 
 async function loadNovel() {
-  if (data.name && novelAPI.currNovel?.name === data.name) {
-    return;
+  if (
+    data.nameRoute &&
+    data.nameRoute === name &&
+    data.currentIdx === Number(route.params.chapter) - 1
+  ) {
+    loaded.value = true;
   }
   await novelAPI.loadNovelFromName(name);
   if (novelAPI.currNovel) {
@@ -75,14 +78,16 @@ async function loadChapter(
   chapter: number
 ): Promise<void> {
   if (chapter && chapter <= novel.data.length) {
-    const val = await novelAPI.getChapter(novel.data[chapter - 1].url);
-    if (!val) {
-      return;
+    if (data.currentIdx !== chapter - 1) {
+      const val = await novelAPI.getChapter(novel.data[chapter - 1].url);
+      if (!val) {
+        return;
+      }
+      data.currentContent = val;
+      data.nextContent = "";
     }
-    content.value = val;
     data.currentIdx = chapter - 1;
     loaded.value = true;
-    data.nextContent = "";
     if (chapter < novel.data.length) {
       data.nextContent =
         (await novelAPI.getChapter(novel.data[chapter].url)) ?? "";
@@ -96,6 +101,6 @@ async function loadChapter(
 <template>
   <div>
     <div v-if="!loaded">Content Loading</div>
-    <div v-else v-html="content"></div>
+    <div v-else v-html="data.currentContent"></div>
   </div>
 </template>
