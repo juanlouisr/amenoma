@@ -1,4 +1,4 @@
-import type { LoadResponse, Pair } from "./main.model";
+import type { LoadResponse, Pair, SearchResponse } from "./main.model";
 
 export const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36";
@@ -9,11 +9,15 @@ export abstract class MainAPI {
   public orderBys: Pair[] = [];
   public tags: Pair[] = [];
 
-  constructor(public mainUrl: string, public name: string) {}
+  constructor(readonly mainUrl: string, readonly name: string) {}
 
   abstract load(url: string): Promise<LoadResponse | null>;
 
+  abstract loadFromName(name: string): Promise<LoadResponse | null>;
+
   abstract loadContent(url: string): Promise<string>;
+
+  abstract search(query: string): Promise<SearchResponse[]>;
 
   fixUrl(url: string): string {
     if (url.startsWith("http")) {
@@ -39,6 +43,7 @@ export function textClean(text?: string): string | undefined {
   return text?.replace(/\\.([A-z]|\\+)/g, "$1").replace(/\\+([A-z])/g, "$1");
 }
 
+// IMPORTANT FOR REMOVING XSS / CROSS SITE SCRIPTING
 export function removeScript(text?: string): string | undefined {
   return text?.replace(
     /<script(?:(?!\/\/)(?!\/\*)[^'"]|"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\/\/.*(?:\n)|\/\*(?:(?:.|\s))*?\*\/)*?<\/script>/g,

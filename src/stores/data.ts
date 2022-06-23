@@ -1,19 +1,28 @@
+import type { ChapterData } from "@/models/main.model";
 import { defineStore } from "pinia";
 
 export const useDataStore = defineStore({
   id: "data",
   state: () => ({
-    type: "?",
-    provider: "?",
-    name: "?",
-    currentChapter: "?",
+    type: "",
+    provider: "",
+    name: "",
+    nameRoute: "",
+    currentIdx: 0,
+    nextContent: "",
+    chaperList: [] as ChapterData[],
   }),
-  //   getters: {
-  //     doubleCount: (state) => state.counter * 2,
-  //   },
-  //   actions: {
-  //     set(data: string) {
-  //       this.type = data;
-  //     },
-  //   },
+  getters: {
+    getRouteName: (state) => {
+      return `/${state.type}/${state.provider}/${state.nameRoute}`;
+    },
+    getRouteChapter: (state) => {
+      return `/${state.type}/${state.provider}/${state.nameRoute}/${state.currentIdx}`;
+    },
+  },
+  actions: {
+    reset() {
+      this.$reset;
+    },
+  },
 });

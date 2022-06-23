@@ -11,7 +11,6 @@ export default defineComponent({
   setup(props) {
     const route = useRoute();
     const isActive = computed(() => route.name == props.type);
-    console.log(isActive);
     return { isActive };
   },
 });
@@ -26,7 +25,12 @@ export default defineComponent({
         class="active-link"
         :class="{ active: isActive, inactive: !isActive }"
       ></div>
-      <img v-bind:src="src" class="sidebar-icon" v-bind:title="title" />
+      <img
+        :src="src"
+        class="sidebar-icon"
+        :class="[isActive ? 'sidebar-active' : '']"
+        :title="title"
+      />
       <!-- <div class="sidebar-tooltip group-hover:scale-100">{{ title }}</div> -->
     </div>
   </router-link>
@@ -36,7 +40,7 @@ export default defineComponent({
 .active-link {
   float: left;
   padding-right: 0.4rem;
-  margin-right: 0.1rem;
+  margin-right: 0.2rem;
   background-color: white;
   border-radius: 0 25px 25px 0;
 }
@@ -44,6 +48,6 @@ export default defineComponent({
   height: 90%;
 }
 .inactive {
-  height: 10%;
+  height: 0%;
 }
 </style>

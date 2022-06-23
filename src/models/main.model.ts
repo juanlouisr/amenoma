@@ -3,11 +3,23 @@ export class LoadResponse {
     public url: string,
     public name: string,
     public data: ChapterData[],
-    public author?: string,
-    public posterUrl?: string | null,
-    public synopsis?: string,
-    public tags?: string[],
+    public author: string,
+    public posterUrl: string,
+    public synopsis: string,
+    public tags: string[],
     public status: Status = Status.NULL
+  ) {}
+}
+
+export class SearchResponse {
+  constructor(
+    public name: string,
+    public url: string,
+    public nameRoute: string,
+    public apiName: string,
+    public rating?: number | null,
+    public posterUrl?: string | null,
+    public latestChapter?: string | null
   ) {}
 }
 
