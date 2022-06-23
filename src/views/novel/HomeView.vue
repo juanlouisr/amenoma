@@ -28,7 +28,6 @@ function loadProvider() {
 }
 
 const searchNovel = () => {
-  console.log("search");
   searching.value = true;
   novelAPI.searchNovel(query.value).then((res) => {
     if (res) {

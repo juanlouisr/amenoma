@@ -20,7 +20,7 @@ onBeforeMount(async () => {
   loaded.value = false;
   loadProvider();
   await loadNovel();
-  await loadChapter(novelAPI.currNovel!, Number(route.params.chapter));
+  await loadChapter(data.currNovel!, Number(route.params.chapter));
 });
 
 watch(
@@ -35,14 +35,19 @@ watch(
         data.currentIdx++;
         loaded.value = true;
         data.nextContent = "";
-        if (nextIdx + 1 !== novelAPI.currNovel?.data.length) {
+        if (
+          nextIdx + 1 !== data.currNovel?.data.length &&
+          data.currNovel?.data[nextIdx + 1].url
+        ) {
           data.nextContent =
-            (await novelAPI.getChapter(data.chaperList[nextIdx + 1].url)) ?? "";
+            (await novelAPI.getChapter(
+              data.currNovel?.data[nextIdx + 1].url
+            )) ?? "";
         }
         return;
       }
     }
-    loadChapter(novelAPI.currNovel!, nextIdx + 1);
+    loadChapter(data.currNovel!, nextIdx + 1);
   }
 );
 
@@ -63,11 +68,10 @@ async function loadNovel() {
   ) {
     loaded.value = true;
   }
-  await novelAPI.loadNovelFromName(name);
-  if (novelAPI.currNovel) {
+  data.currNovel = await novelAPI.getNovelFromName(name);
+  if (data.currNovel) {
     data.nameRoute = name;
-    data.name = novelAPI.currNovel.name;
-    data.chaperList = novelAPI.currNovel.data;
+    data.name = data.currNovel.name;
     return;
   }
   router.replace("/error");
