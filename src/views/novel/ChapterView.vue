@@ -6,6 +6,8 @@ import { useNovelStore } from "@/stores/novel";
 import { useDataStore } from "@/stores/data";
 import type { LoadResponse } from "@/models/main.model";
 
+import LoadPage from "@/components/LoadPage.vue";
+
 const loaded = ref(false);
 const content = ref("loading");
 const data = useDataStore();
@@ -94,8 +96,6 @@ async function loadChapter(
 </script>
 
 <template>
-  <div>
-    <div v-if="!loaded">Content Loading</div>
-    <div v-else v-html="content"></div>
-  </div>
+    <div v-if="!loaded"><LoadPage /></div>
+    <div v-else v-html="content" class="content"></div>
 </template>

@@ -3,6 +3,7 @@ import { ref, onBeforeMount } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useNovelStore } from "@/stores/novel";
 import { useDataStore } from "@/stores/data";
+import LoadPage from "@/components/LoadPage.vue";
 
 const loaded = ref(false);
 const data = useDataStore();
@@ -47,8 +48,6 @@ async function loadNovel() {
 </script>
 
 <template>
-  <div>
-    <div v-if="!loaded">Content Loading</div>
-    <div v-else>{{ novelAPI.currNovel?.name }}</div>
-  </div>
+  <div v-if="!loaded"><LoadPage /></div>
+  <div v-else>{{ novelAPI.currNovel?.name }}</div>
 </template>

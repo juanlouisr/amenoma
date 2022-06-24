@@ -19,7 +19,7 @@ var showSideControlBar = ref<boolean>();
       <NavBar
         @toggle-side-control-bar="(show) => (showSideControlBar = show)"
       ></NavBar>
-      <RouterView class="content" />
+      <RouterView class="conten" />
     </div>
   </div>
 </template>

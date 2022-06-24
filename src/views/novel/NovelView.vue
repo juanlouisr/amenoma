@@ -16,7 +16,5 @@ onBeforeMount(async () => {
 </script>
 
 <template>
-  <div>
-    <div v-html="content"></div>
-  </div>
+  <div v-html="content"></div>
 </template>
