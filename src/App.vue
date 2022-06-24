@@ -19,12 +19,16 @@ var showSideControlBar = ref<boolean>();
       <NavBar
         @toggle-side-control-bar="(show) => (showSideControlBar = show)"
       ></NavBar>
-      <RouterView class="conten" />
+      <RouterView kirim showSidecontrolBar/>
     </div>
   </div>
 </template>
 
 <style>
+body{
+  font-family: 'Varta';
+}
+
 .sidebar-enter-active {
   transition: all 0.1s ease-in;
 }
