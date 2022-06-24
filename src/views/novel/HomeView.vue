@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onBeforeMount, computed } from "vue";
+import { ref, onBeforeMount } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useNovelStore } from "@/stores/novel";
 import { useDataStore } from "@/stores/data";
@@ -28,7 +28,6 @@ function loadProvider() {
 }
 
 const searchNovel = () => {
-  console.log("search");
   searching.value = true;
   novelAPI.searchNovel(query.value).then((res) => {
     if (res) {
@@ -38,33 +37,70 @@ const searchNovel = () => {
   });
 };
 
+const inputEvent = (event: Event) => {
+  query.value = (event.target as HTMLInputElement).value;
+};
+
 const truncate = (text: string, stop: number) => {
-  return text.slice(0, stop) + (stop < text.length ? '...' : '')
-}
+  return text.slice(0, stop) + (stop < text.length ? "..." : "");
+};
 </script>
 
 <template>
   <div class="home flex flex-col">
     <h1 class="title my-3">{{ data.provider }}</h1>
-    <div class="searchbar w-2/3 mx-auto flex relative mb-1">
-      <div v-if="searching" class="loading absolute left-2 top-1.5 animate-spin h-5 w-5">
+    <div class="searchbar w-2/3 mx-auto flex relative mb-1 h-11">
+      <div
+        v-if="searching"
+        class="loading absolute left-2 top-1.5 animate-spin h-5 w-5"
+      >
         <img src="../../assets/loading.png" alt="loading" class="object-fit" />
       </div>
-      <img v-else src="../../assets/search.png" alt="search" class="absolute left-2 top-1.5 h-4/6" />
-      <input class="rounded-2xl flex-1" v-model="query" @keypress.enter="searchNovel()" autofocus />
+      <img
+        v-else
+        src="../../assets/search.png"
+        alt="search"
+        class="absolute left-2 top-1.5 h-4/6"
+      />
+      <input
+        class="rounded-2xl flex-1 text-2xl"
+        :value="query"
+        @input="inputEvent($event)"
+        @keypress.enter="searchNovel()"
+        autofocus
+      />
     </div>
-    <div v-if="searchResult.length != 0"
-      class="result grid lg:grid-cols-6 grid-flow-col-3 sm:grid-cols-1 my-3 mx-auto py-4 gap-y-5 justify-center rounded-md justify-items-center">
+    <div
+      v-if="searchResult.length != 0"
+      class="result grid lg:grid-cols-6 grid-flow-col-3 sm:grid-cols-1 my-3 mx-auto py-4 gap-y-5 justify-center rounded-md justify-items-center"
+    >
       <div v-for="(res, idx) in searchResult" :key="idx">
         <router-link :to="`/novel/${provider}/${res.nameRoute}`">
           <div class="res-card h-64 w-40 flex flex-col relative rounded-md">
-            <div class="rating flex flex-row w-4/12 absolute" v-if="res.rating ?? false">
-              <h1 class="rating-score ml-3 mr-0.5">{{ res.rating?.toString }}</h1>
-              <img src="../../assets/star.png" alt="star" class="h-3/5 my-auto" />
+            <div
+              class="rating flex flex-row w-4/12 absolute"
+              v-if="res.rating ?? false"
+            >
+              <h1 class="rating-score ml-3 mr-0.5">
+                {{ res.rating?.toString }}
+              </h1>
+              <img
+                src="../../assets/star.png"
+                alt="star"
+                class="h-3/5 my-auto"
+              />
             </div>
-            <img :src="res.posterUrl ?? '#'" alt="poster" class="h-4/6 w-full object-fill rounded-top-md" />
+            <img
+              :src="res.posterUrl ?? '#'"
+              alt="poster"
+              class="h-4/6 w-full object-fill rounded-top-md"
+            />
             <h1 class="text-sm p-1">{{ truncate(res.name, 32) }}</h1>
-            <h3 class="text-xs px-1 absolute bottom-3" v-if="res.latestChapter ?? false">Chapter {{ res.latestChapter }}
+            <h3
+              class="text-xs px-1 absolute bottom-3"
+              v-if="res.latestChapter ?? false"
+            >
+              Chapter {{ res.latestChapter }}
             </h3>
           </div>
         </router-link>

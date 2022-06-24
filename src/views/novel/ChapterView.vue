@@ -9,7 +9,6 @@ import type { LoadResponse } from "@/models/main.model";
 import LoadPage from "@/components/LoadPage.vue";
 
 const loaded = ref(false);
-const content = ref("loading");
 const data = useDataStore();
 const novelAPI = useNovelStore();
 const route = useRoute();
@@ -23,7 +22,7 @@ onBeforeMount(async () => {
   loaded.value = false;
   loadProvider();
   await loadNovel();
-  await loadChapter(novelAPI.currNovel!, Number(route.params.chapter));
+  await loadChapter(data.currNovel!, Number(route.params.chapter));
 });
 
 watch(
@@ -34,18 +33,23 @@ watch(
     const oldIdx = Number(oldId) - 1;
     if (nextIdx - 1 === oldIdx) {
       if (data.nextContent) {
-        content.value = data.nextContent;
+        data.currentContent = data.nextContent;
         data.currentIdx++;
         loaded.value = true;
         data.nextContent = "";
-        if (nextIdx + 1 !== novelAPI.currNovel?.data.length) {
+        if (
+          nextIdx + 1 !== data.currNovel?.data.length &&
+          data.currNovel?.data[nextIdx + 1].url
+        ) {
           data.nextContent =
-            (await novelAPI.getChapter(data.chaperList[nextIdx + 1].url)) ?? "";
+            (await novelAPI.getChapter(
+              data.currNovel?.data[nextIdx + 1].url
+            )) ?? "";
         }
         return;
       }
     }
-    loadChapter(novelAPI.currNovel!, nextIdx + 1);
+    loadChapter(data.currNovel!, nextIdx + 1);
   }
 );
 
@@ -59,14 +63,17 @@ function loadProvider() {
 }
 
 async function loadNovel() {
-  if (data.name && novelAPI.currNovel?.name === data.name) {
-    return;
+  if (
+    data.nameRoute &&
+    data.nameRoute === name &&
+    data.currentIdx === Number(route.params.chapter) - 1
+  ) {
+    loaded.value = true;
   }
-  await novelAPI.loadNovelFromName(name);
-  if (novelAPI.currNovel) {
+  data.currNovel = await novelAPI.getNovelFromName(name);
+  if (data.currNovel) {
     data.nameRoute = name;
-    data.name = novelAPI.currNovel.name;
-    data.chaperList = novelAPI.currNovel.data;
+    data.name = data.currNovel.name;
     return;
   }
   router.replace("/error");
@@ -77,14 +84,16 @@ async function loadChapter(
   chapter: number
 ): Promise<void> {
   if (chapter && chapter <= novel.data.length) {
-    const val = await novelAPI.getChapter(novel.data[chapter - 1].url);
-    if (!val) {
-      return;
+    if (data.currentIdx !== chapter - 1) {
+      const val = await novelAPI.getChapter(novel.data[chapter - 1].url);
+      if (!val) {
+        return;
+      }
+      data.currentContent = val;
+      data.nextContent = "";
     }
-    content.value = val;
     data.currentIdx = chapter - 1;
     loaded.value = true;
-    data.nextContent = "";
     if (chapter < novel.data.length) {
       data.nextContent =
         (await novelAPI.getChapter(novel.data[chapter].url)) ?? "";
@@ -96,6 +105,8 @@ async function loadChapter(
 </script>
 
 <template>
+  <div>
     <div v-if="!loaded"><LoadPage /></div>
-    <div v-else v-html="content" class="content"></div>
+    <div v-else v-html="data.currentContent"></div>
+  </div>
 </template>

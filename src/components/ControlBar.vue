@@ -15,7 +15,7 @@ const data = useDataStore();
     <div class="w-full min-h-max p-3">
       <h3
         class="text-white text-md font-bold"
-        v-for="(chapter, index) in data.chaperList"
+        v-for="(chapter, index) in data.currNovel?.data"
         :key="chapter.name"
       >
         <router-link :to="`${data.getRouteName}/${index + 1}`">{{

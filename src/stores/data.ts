@@ -1,4 +1,4 @@
-import type { ChapterData } from "@/models/main.model";
+import type { LoadResponse } from "@/models/main.model";
 import { defineStore } from "pinia";
 
 export const useDataStore = defineStore({
@@ -8,9 +8,10 @@ export const useDataStore = defineStore({
     provider: "",
     name: "",
     nameRoute: "",
-    currentIdx: 0,
+    currentIdx: -1,
+    currentContent: "",
     nextContent: "",
-    chaperList: [] as ChapterData[],
+    currNovel: null as LoadResponse | null | undefined,
   }),
   getters: {
     getRouteName: (state) => {
@@ -25,4 +26,5 @@ export const useDataStore = defineStore({
       this.$reset;
     },
   },
+  persist: true,
 });
