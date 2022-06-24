@@ -36,6 +36,10 @@ const searchNovel = () => {
     searching.value = false;
   });
 };
+
+const inputEvent = (event: Event) => {
+  query.value = (event.target as HTMLInputElement).value;
+};
 </script>
 
 <template>
@@ -43,7 +47,8 @@ const searchNovel = () => {
     <h1>{{ data.provider }}</h1>
     <input
       class="border rounded p-1"
-      v-model="query"
+      :value="query"
+      @input="(event) => inputEvent(event as InputEvent)"
       @keypress.enter="searchNovel()"
     />
     <p>Query is: {{ query }}</p>
