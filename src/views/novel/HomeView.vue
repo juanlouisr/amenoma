@@ -49,10 +49,10 @@ const truncate = (text: string, stop: number) => {
 <template>
   <div class="home flex flex-col">
     <h1 class="title my-3">{{ data.provider }}</h1>
-    <div class="searchbar w-2/3 mx-auto flex relative mb-1 h-11">
+    <div class="searchbar w-full md:w-2/3 mx-auto flex relative mb-1 h-11">
       <div
         v-if="searching"
-        class="loading absolute left-2 top-1.5 animate-spin h-5 w-5"
+        class="loading absolute left-2 top-1.5 animate-spin h-7 w-7"
       >
         <img src="../../assets/loading.png" alt="loading" class="object-fit" />
       </div>
@@ -63,7 +63,7 @@ const truncate = (text: string, stop: number) => {
         class="absolute left-2 top-1.5 h-4/6"
       />
       <input
-        class="rounded-2xl flex-1 text-2xl"
+        class="rounded-2xl flex-grow text-2xl overflow-x-hidden"
         :value="query"
         @input="inputEvent($event)"
         @keypress.enter="searchNovel()"
@@ -72,7 +72,7 @@ const truncate = (text: string, stop: number) => {
     </div>
     <div
       v-if="searchResult.length != 0"
-      class="result grid lg:grid-cols-6 grid-flow-col-3 sm:grid-cols-1 my-3 mx-auto py-4 gap-y-5 justify-center rounded-md justify-items-center"
+      class="result grid xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-3 grid-flow-col-3 sm:grid-cols-1 my-3 mx-auto py-4 gap-y-5 justify-center rounded-md justify-items-center"
     >
       <div v-for="(res, idx) in searchResult" :key="idx">
         <router-link :to="`/novel/${provider}/${res.nameRoute}`">
