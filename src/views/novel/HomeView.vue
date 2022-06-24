@@ -4,6 +4,7 @@ import { useRoute, useRouter } from "vue-router";
 import { useNovelStore } from "@/stores/novel";
 import { useDataStore } from "@/stores/data";
 import type { SearchResponse } from "@/models/main.model";
+import { usePreferencesStore } from "@/stores/preferences";
 
 const query = ref("");
 const searching = ref(false);
@@ -12,6 +13,7 @@ const data = useDataStore();
 const novelAPI = useNovelStore();
 const route = useRoute();
 const router = useRouter();
+const preferences = usePreferencesStore();
 
 const provider = route.params.provider as string;
 onBeforeMount(() => {
@@ -70,9 +72,13 @@ const truncate = (text: string, stop: number) => {
         autofocus
       />
     </div>
+
     <div
-      v-if="searchResult.length != 0"
-      class="result grid xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-3 grid-flow-col-3 sm:grid-cols-1 my-3 mx-auto py-4 gap-y-5 justify-center rounded-md justify-items-center"
+      v-if="searchResult.length"
+      class="result grid sm:grid-cols-1 my-3 mx-auto py-4 gap-y-5 justify-center rounded-md justify-items-center"
+      :class="[
+        preferences.isShowControlSideBar ? 'lg:grid-cols-4' : 'lg:grid-cols-6',
+      ]"
     >
       <div v-for="(res, idx) in searchResult" :key="idx">
         <router-link :to="`/novel/${provider}/${res.nameRoute}`">
