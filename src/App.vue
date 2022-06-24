@@ -19,15 +19,12 @@ const preferences = usePreferencesStore();
     </Transition>
     <div class="flex-grow h-screen flex flex-col overflow-x-hidden min-w-0">
       <NavBar @toggle-side-control-bar="() => (preferences.toggleControlSideBar())"></NavBar>
-      <RouterView kirim showSidecontrolBar />
+      <RouterView/>
     </div>
   </div>
 </template>
 
 <style>
-body{
-  font-family: 'Varta';
-}
 
 .sidebar-enter-active {
   transition: all 0.1s ease-in;

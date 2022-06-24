@@ -1,16 +1,3 @@
-<script setup lang="ts">
-// import { ref } from "@vue/reactivity";
-
-// var show = ref(false);
-// defineEmits<{
-//   (e: "toggleSideControlBar", show: boolean): void;
-// }>();
-// function toggleShow() {
-//   show.value = !show.value;
-//   return show.value;
-// }
-</script>
-
 <template>
   <header class="flex bg-gray-900 shrink-0 h-16 w-full">
     <button
