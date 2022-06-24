@@ -33,7 +33,7 @@ function loadProvider() {
 }
 
 async function loadNovel() {
-  if (data.name && data.currNovel?.name === data.name) {
+  if (data.nameRoute && data.nameRoute === name) {
     return;
   }
   data.currNovel = await novelAPI.getNovelFromName(name);
