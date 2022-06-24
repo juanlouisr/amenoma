@@ -4,7 +4,6 @@ import { useRoute, useRouter } from "vue-router";
 import { useNovelStore } from "@/stores/novel";
 import { useDataStore } from "@/stores/data";
 import type { SearchResponse } from "@/models/main.model";
-import { usePreferencesStore } from "@/stores/preferences";
 
 const query = ref("");
 const searching = ref(false);
@@ -13,7 +12,6 @@ const data = useDataStore();
 const novelAPI = useNovelStore();
 const route = useRoute();
 const router = useRouter();
-const preferences = usePreferencesStore();
 
 const provider = route.params.provider as string;
 onBeforeMount(() => {
@@ -51,7 +49,10 @@ const truncate = (text: string, stop: number) => {
 <template>
   <div class="home flex flex-col">
     <h1 class="title my-3">{{ data.provider }}</h1>
-    <div class="searchbar w-full md:w-2/3 mx-auto flex relative mb-1 h-11">
+    <form
+      @submit.prevent="searchNovel()"
+      class="searchbar w-full md:w-2/3 mx-auto flex relative mb-1 h-11"
+    >
       <div
         v-if="searching"
         class="loading absolute left-2 top-1.5 animate-spin h-7 w-7"
@@ -65,20 +66,16 @@ const truncate = (text: string, stop: number) => {
         class="absolute left-2 top-1.5 h-4/6"
       />
       <input
-        class="rounded-2xl flex-grow text-2xl overflow-x-hidden"
+        class="rounded-full flex-grow text-xl shadow-lg overflow-x-hidden outline-none bg-gray-400 py-1 px-2 text-gray-700"
         :value="query"
         @input="inputEvent($event)"
-        @keypress.enter="searchNovel()"
         autofocus
       />
-    </div>
+    </form>
 
     <div
       v-if="searchResult.length"
-      class="result grid sm:grid-cols-1 my-3 mx-auto py-4 gap-y-5 justify-center rounded-md justify-items-center"
-      :class="[
-        preferences.isShowControlSideBar ? 'lg:grid-cols-4' : 'lg:grid-cols-6',
-      ]"
+      class="w-[97%] p-2 bg-gray-800 flex flex-wrap my-4 mx-auto py-4 gap-y-5 gap-x-5 justify-center rounded-md justify-items-center"
     >
       <div v-for="(res, idx) in searchResult" :key="idx">
         <router-link :to="`/novel/${provider}/${res.nameRoute}`">
@@ -117,20 +114,7 @@ const truncate = (text: string, stop: number) => {
 </template>
 
 <style scoped>
-.home {
-  background-color: #36393f;
-}
-
-.title {
-  margin-left: auto;
-  margin-right: auto;
-  color: white;
-  font-weight: bold;
-  font-size: 1.5rem;
-}
-
 input {
-  background-color: #b9bbbe;
   padding: 0.25rem 3rem 0.25rem 3rem;
 }
 
