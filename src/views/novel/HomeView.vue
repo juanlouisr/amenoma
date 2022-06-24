@@ -51,11 +51,11 @@ const truncate = (text: string, stop: number) => {
     <h1 class="title my-3">{{ data.provider }}</h1>
     <form
       @submit.prevent="searchNovel()"
-      class="searchbar w-full md:w-2/3 mx-auto flex relative mb-1 h-11"
+      class="searchbar w-full md:w-2/3 mx-auto flex relative mb-1"
     >
       <div
         v-if="searching"
-        class="loading absolute left-2 top-1.5 animate-spin h-7 w-7"
+        class="loading absolute left-3 top-1.5 animate-spin h-7 w-7"
       >
         <img src="../../assets/loading.png" alt="loading" class="object-fit" />
       </div>
@@ -64,9 +64,10 @@ const truncate = (text: string, stop: number) => {
         src="../../assets/search.png"
         alt="search"
         class="absolute left-2 top-1.5 h-4/6"
+        loading="lazy"
       />
       <input
-        class="rounded-full flex-grow text-xl shadow-lg overflow-x-hidden outline-none bg-gray-400 py-1 px-2 text-gray-700"
+        class="rounded-full w-full h-11 text-xl shadow-lg overflow-x-hidden outline-none bg-gray-400 text-gray-700"
         :value="query"
         @input="inputEvent($event)"
         autofocus
@@ -115,16 +116,11 @@ const truncate = (text: string, stop: number) => {
 
 <style scoped>
 input {
-  padding: 0.25rem 3rem 0.25rem 3rem;
+  padding: 0.25rem 2rem 0.25rem 3.5rem;
 }
 
 .rounded-top-md {
   border-radius: 0.375rem 0.375rem 0 0;
-}
-
-.result {
-  width: 95%;
-  background-color: #2f3136;
 }
 
 .res-card {
@@ -133,10 +129,5 @@ input {
 
 .rating {
   background-color: rgba(32, 34, 37, 0.88);
-}
-
-h1,
-h3 {
-  color: white;
 }
 </style>
