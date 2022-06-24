@@ -13,6 +13,5 @@
 <style scoped>
 .cover {
   height: calc(100vh - 4rem);
-  background-color: rgba(0, 0, 0, 0.249);
 }
 </style>

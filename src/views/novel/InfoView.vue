@@ -18,7 +18,7 @@ onBeforeMount(async () => {
   data.type = "novel";
   loadProvider();
   await loadNovel();
-  if (novelAPI.currNovel) {
+  if (data.currNovel) {
     loaded.value = true;
   }
 });
@@ -33,14 +33,13 @@ function loadProvider() {
 }
 
 async function loadNovel() {
-  if (data.name && novelAPI.currNovel?.name === data.name) {
+  if (data.name && data.currNovel?.name === data.name) {
     return;
   }
-  await novelAPI.loadNovelFromName(name);
-  if (novelAPI.currNovel) {
+  data.currNovel = await novelAPI.getNovelFromName(name);
+  if (data.currNovel) {
     data.nameRoute = name;
-    data.name = novelAPI.currNovel.name;
-    data.chaperList = novelAPI.currNovel.data;
+    data.name = data.currNovel.name;
     return;
   }
   router.replace("/error");
@@ -49,5 +48,5 @@ async function loadNovel() {
 
 <template>
   <div v-if="!loaded"><LoadPage /></div>
-  <div v-else>{{ novelAPI.currNovel?.name }}</div>
+  <div v-else>{{ data.currNovel?.name }}</div>
 </template>
