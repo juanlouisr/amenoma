@@ -40,6 +40,7 @@ async function loadNovel() {
   if (data.currNovel) {
     data.nameRoute = name;
     data.name = data.currNovel.name;
+    data.currentIdx = -1;
     return;
   }
   router.replace("/error");
