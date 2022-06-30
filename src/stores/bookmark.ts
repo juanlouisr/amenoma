@@ -1,6 +1,7 @@
 import type { BookmarkData } from "@/models/main.model";
 import { defineStore } from "pinia";
 import { useDataStore } from "./data";
+import { IDBStorage } from "./idbStorage";
 
 export const useBookmarkStore = defineStore({
   id: "data",
@@ -22,5 +23,7 @@ export const useBookmarkStore = defineStore({
       );
     },
   },
-  persist: true,
+  persist: {
+    storage: IDBStorage,
+  },
 });
