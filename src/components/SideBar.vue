@@ -11,6 +11,13 @@ const bmStore = useBookmarkStore();
   >
     <SideBarItem
       src="https://uxwing.com/wp-content/themes/uxwing/download/44-hand-gestures/good.png"
+      title="about"
+      path="/"
+    />
+    <SideBarItem
+      src="https://static.vecteezy.com/system/resources/previews/001/200/145/original/books-png.png"
+      title="novel"
+      path="/novel"
     />
     <hr class="sidebar-hr" />
     <SideBarItem
@@ -18,6 +25,7 @@ const bmStore = useBookmarkStore();
       :key="getBookmarkRoute(item)"
       :src="item.currNovel?.posterUrl!"
       :data="item"
+      :title="item.name"
     />
   </div>
 </template>

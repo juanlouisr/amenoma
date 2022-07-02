@@ -7,6 +7,8 @@ import { getBookmarkRoute } from "@/stores/bookmark";
 const props = defineProps<{
   data?: BookmarkData;
   src: string;
+  title: string;
+  path?: string;
 }>();
 
 const route = useRoute();
@@ -15,14 +17,16 @@ const isActive = computed<boolean>(() => {
   if (props.data) {
     return route.path.includes(getBookmarkRoute(props.data));
   }
-  return route.path === "/";
+  return route.path === props.path;
 });
 </script>
 
 <template>
   <router-link
     :to="
-      data ? '/' + data.type + '/' + data.provider + '/' + data.nameRoute : '/'
+      data
+        ? `/${data.type}/${data.provider}/${data.nameRoute}`
+        : props.path ?? '/'
     "
   >
     <div
@@ -36,7 +40,7 @@ const isActive = computed<boolean>(() => {
         :src="props.src"
         class="sidebar-icon"
         :class="[isActive ? 'sidebar-active' : '']"
-        :title="data?.name ?? 'about'"
+        :title="props.title"
       />
       <!-- <div class="sidebar-tooltip group-hover:scale-100">{{ title }}</div> -->
     </div>
