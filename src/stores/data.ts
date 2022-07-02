@@ -17,7 +17,16 @@ export const useDataStore = defineStore({
   }),
   getters: {
     copyState: (state): BookmarkData => {
-      return parse(stringify(state));
+      return {
+        type: state.type,
+        provider: state.provider,
+        name: state.name,
+        nameRoute: state.nameRoute,
+        currentIdx: state.currentIdx,
+        currentContent: state.currentContent,
+        nextContent: state.nextContent,
+        currNovel: state.currNovel,
+      };
     },
     getRouteName: (state) => {
       return `/${state.type}/${state.provider}/${state.nameRoute}`;
