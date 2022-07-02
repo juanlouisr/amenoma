@@ -17,7 +17,7 @@ export const useDataStore = defineStore({
   }),
   getters: {
     copyState: (state): BookmarkData => {
-      return JSON.parse(JSON.stringify(state));
+      return parse(stringify(state));
     },
     getRouteName: (state) => {
       return `/${state.type}/${state.provider}/${state.nameRoute}`;
