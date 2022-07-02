@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { get, set } from "idb-keyval";
+import { set } from "idb-keyval";
 
 export class IDBStorage {
   public static setItem(key: string, val: any) {
     Promise.resolve(set(key, val));
+    console.log("SETTING ITEM");
   }
-  public static getItem(key: string): any {
-    return Promise.resolve(get(key));
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public static getItem(_key: string): any {
+    return undefined;
   }
 }
