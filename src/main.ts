@@ -13,16 +13,18 @@ const app = createApp(App);
 const pinia = createPinia();
 const data = get("data");
 const bookmark = get("bookmark");
-const dataStore = await data;
-const bookmarkStore = await bookmark;
 
-if (dataStore) {
-  pinia.state.value.data = JSON.parse(dataStore);
-}
+data.then((dataStore) => {
+  if (dataStore) {
+    pinia.state.value.data = JSON.parse(dataStore);
+  }
+});
 
-if (bookmarkStore) {
-  pinia.state.value.bookmark = JSON.parse(bookmarkStore);
-}
+bookmark.then((bookmarkStore) => {
+  if (bookmarkStore) {
+    pinia.state.value.bookmark = JSON.parse(bookmarkStore);
+  }
+});
 
 pinia.use(piniaPluginPersistedstate);
 
