@@ -1,6 +1,7 @@
 import type { BookmarkData } from "@/models/main.model";
 import { defineStore } from "pinia";
 import { IDBStorage } from "./idbStorage";
+import { parse, stringify } from "flatted";
 
 export const useBookmarkStore = defineStore({
   id: "bookmark",
@@ -23,6 +24,10 @@ export const useBookmarkStore = defineStore({
   },
   persist: {
     storage: IDBStorage,
+    serializer: {
+      serialize: stringify,
+      deserialize: parse,
+    },
   },
 });
 

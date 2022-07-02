@@ -1,6 +1,7 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import { get } from "idb-keyval";
+import { parse } from "flatted";
 
 import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 
@@ -17,11 +18,11 @@ const dataStore = await data;
 const bookmarkStore = await bookmark;
 
 if (dataStore) {
-  pinia.state.value.data = JSON.parse(dataStore);
+  pinia.state.value.data = parse(dataStore);
 }
 
 if (bookmarkStore) {
-  pinia.state.value.bookmark = JSON.parse(bookmarkStore);
+  pinia.state.value.bookmark = parse(bookmarkStore);
 }
 pinia.use(piniaPluginPersistedstate);
 

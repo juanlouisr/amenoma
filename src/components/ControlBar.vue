@@ -9,10 +9,8 @@ const bmS = useBookmarkStore();
 const bookmarkAction = () => {
   if (!bmS.getBookmark(data.getRouteName)) {
     bmS.insertBookmark(data.copyState);
-    console.log("insering bookmark");
   } else {
     bmS.deleteBookmark(data.getRouteName);
-    console.log("deleting bookmark");
   }
 };
 const bookmarked = computed(() => bmS.getBookmark(data.getRouteName));
