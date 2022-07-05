@@ -1,5 +1,6 @@
-import type { LoadResponse } from "@/models/main.model";
+import type { BookmarkData, LoadResponse } from "@/models/main.model";
 import { defineStore } from "pinia";
+import { IDBStorage } from "./idbStorage";
 
 export const useDataStore = defineStore({
   id: "data",
@@ -14,6 +15,9 @@ export const useDataStore = defineStore({
     currNovel: null as LoadResponse | null | undefined,
   }),
   getters: {
+    copyState: (state): BookmarkData => {
+      return JSON.parse(JSON.stringify(state));
+    },
     getRouteName: (state) => {
       return `/${state.type}/${state.provider}/${state.nameRoute}`;
     },
@@ -26,5 +30,7 @@ export const useDataStore = defineStore({
       this.$reset;
     },
   },
-  persist: true,
+  persist: {
+    storage: IDBStorage,
+  },
 });

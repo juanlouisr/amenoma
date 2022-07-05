@@ -2,11 +2,9 @@
 import SideBar from "@/components/SideBar.vue";
 import ControlBar from "@/components/ControlBar.vue";
 import NavBar from "@/components/NavBar.vue";
-import { ref } from "@vue/reactivity";
 import { usePreferencesStore } from "./stores/preferences";
 
 const preferences = usePreferencesStore();
-
 </script>
 
 <template>
@@ -18,8 +16,10 @@ const preferences = usePreferencesStore();
       <ControlBar v-show="preferences.isShowControlSideBar" class="z-0" />
     </Transition>
     <div class="flex-grow h-screen flex flex-col overflow-x-hidden min-w-0">
-      <NavBar @toggle-side-control-bar="() => (preferences.toggleControlSideBar())"></NavBar>
-      <RouterView class="content"/>
+      <NavBar
+        @toggle-side-control-bar="() => preferences.toggleControlSideBar()"
+      ></NavBar>
+      <RouterView class="content" />
     </div>
   </div>
 </template>

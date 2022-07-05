@@ -4,7 +4,6 @@ import { useRoute, useRouter } from "vue-router";
 import { useNovelStore } from "@/stores/novel";
 import { useDataStore } from "@/stores/data";
 import type { SearchResponse } from "@/models/main.model";
-import { usePreferencesStore } from "@/stores/preferences";
 
 const query = ref("");
 const searching = ref(false);
@@ -13,7 +12,6 @@ const data = useDataStore();
 const novelAPI = useNovelStore();
 const route = useRoute();
 const router = useRouter();
-const preferences = usePreferencesStore();
 
 const provider = route.params.provider as string;
 onBeforeMount(() => {
@@ -51,10 +49,13 @@ const truncate = (text: string, stop: number) => {
 <template>
   <div class="home flex flex-col">
     <h1 class="title my-3">{{ data.provider }}</h1>
-    <div class="searchbar w-2/3 mx-auto flex relative mb-1 h-11">
+    <form
+      @submit.prevent="searchNovel()"
+      class="searchbar w-full md:w-2/3 mx-auto flex relative mb-1"
+    >
       <div
         v-if="searching"
-        class="loading absolute left-2 top-1.5 animate-spin h-5 w-5"
+        class="loading absolute left-3 top-1.5 animate-spin h-7 w-7"
       >
         <img src="../../assets/loading.png" alt="loading" class="object-fit" />
       </div>
@@ -63,20 +64,20 @@ const truncate = (text: string, stop: number) => {
         src="../../assets/search.png"
         alt="search"
         class="absolute left-2 top-1.5 h-4/6"
+        loading="lazy"
       />
       <input
-        class="rounded-2xl flex-1 text-2xl"
+        class="rounded-full w-full h-11 text-xl shadow-lg overflow-x-hidden outline-none bg-gray-400 text-gray-700"
         :value="query"
         @input="inputEvent($event)"
-        @keypress.enter="searchNovel()"
         autofocus
       />
-    </div>
+    </form>
 
-    <div v-if="searchResult.length != 0"
-      class="result grid  sm:grid-cols-1 my-3 mx-auto py-4 gap-y-5 justify-center rounded-md justify-items-center"
-      :class="[preferences.isShowControlSideBar ? 'lg:grid-cols-4' : 'lg:grid-cols-6' ]">
-
+    <div
+      v-if="searchResult.length"
+      class="w-[97%] p-2 bg-gray-800 flex flex-wrap my-4 mx-auto py-4 gap-y-5 gap-x-5 justify-center rounded-md justify-items-center"
+    >
       <div v-for="(res, idx) in searchResult" :key="idx">
         <router-link :to="`/novel/${provider}/${res.nameRoute}`">
           <div class="res-card h-64 w-40 flex flex-col relative rounded-md">
@@ -114,30 +115,12 @@ const truncate = (text: string, stop: number) => {
 </template>
 
 <style scoped>
-.home {
-  background-color: #36393f;
-}
-
-.title {
-  margin-left: auto;
-  margin-right: auto;
-  color: white;
-  font-weight: bold;
-  font-size: 1.5rem;
-}
-
 input {
-  background-color: #b9bbbe;
-  padding: 0.25rem 3rem 0.25rem 3rem;
+  padding: 0.25rem 2rem 0.25rem 3.5rem;
 }
 
 .rounded-top-md {
   border-radius: 0.375rem 0.375rem 0 0;
-}
-
-.result {
-  width: 95%;
-  background-color: #2f3136;
 }
 
 .res-card {
@@ -146,10 +129,5 @@ input {
 
 .rating {
   background-color: rgba(32, 34, 37, 0.88);
-}
-
-h1,
-h3 {
-  color: white;
 }
 </style>

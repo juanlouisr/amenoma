@@ -39,4 +39,17 @@ export class ChapterData {
   ) {}
 }
 
+export class BookmarkData {
+  constructor(
+    public type: string,
+    public provider: string,
+    public name: string,
+    public nameRoute: string,
+    public currentIdx: number,
+    public currentContent: string,
+    public nextContent: string,
+    public currNovel?: LoadResponse | null
+  ) {}
+}
+
 export declare type Pair = { [key: string]: string };
