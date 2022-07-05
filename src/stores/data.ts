@@ -1,6 +1,7 @@
 import type { BookmarkData, LoadResponse } from "@/models/main.model";
 import { defineStore } from "pinia";
 import { IDBStorage } from "./idbStorage";
+import { parse, stringify } from "flatted";
 
 export const useDataStore = defineStore({
   id: "data",
@@ -16,7 +17,16 @@ export const useDataStore = defineStore({
   }),
   getters: {
     copyState: (state): BookmarkData => {
-      return JSON.parse(JSON.stringify(state));
+      return {
+        type: state.type,
+        provider: state.provider,
+        name: state.name,
+        nameRoute: state.nameRoute,
+        currentIdx: state.currentIdx,
+        currentContent: state.currentContent,
+        nextContent: state.nextContent,
+        currNovel: state.currNovel,
+      };
     },
     getRouteName: (state) => {
       return `/${state.type}/${state.provider}/${state.nameRoute}`;
@@ -32,5 +42,9 @@ export const useDataStore = defineStore({
   },
   persist: {
     storage: IDBStorage,
+    serializer: {
+      serialize: stringify,
+      deserialize: parse,
+    },
   },
 });

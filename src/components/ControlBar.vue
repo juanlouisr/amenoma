@@ -1,11 +1,19 @@
 <script setup lang="ts">
+import { computed } from "vue";
+import { useBookmarkStore } from "@/stores/bookmark";
 import { useDataStore } from "@/stores/data";
 import { BookmarkIcon } from "@heroicons/vue/outline";
 
 const data = useDataStore();
+const bmS = useBookmarkStore();
 const bookmarkAction = () => {
-  console.log("bookmark");
+  if (!bmS.getBookmark(data.getRouteName)) {
+    bmS.insertBookmark(data.copyState);
+  } else {
+    bmS.deleteBookmark(data.getRouteName);
+  }
 };
+const bookmarked = computed(() => bmS.getBookmark(data.getRouteName));
 </script>
 
 <template>
@@ -16,8 +24,17 @@ const bookmarkAction = () => {
       <h1 class="text-white text-xl font-bold">
         {{ data.name }}
       </h1>
-      <button class="w-8 shrink-0" @click="bookmarkAction()" title="bookmark">
-        <BookmarkIcon class="text-white" />
+
+      <button
+        v-if="data.name && data.provider && data.type"
+        class="w-8 shrink-0"
+        @click="bookmarkAction()"
+        title="bookmark"
+      >
+        <BookmarkIcon
+          class="text-white"
+          :class="bookmarked ? 'fill-white' : ''"
+        />
       </button>
     </div>
     <hr class="bg-gray-700 border border-gray-700 rounded-full mx-2" />

@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { useBookmarkStore, getBookmarkRoute } from "@/stores/bookmark";
 import SideBarItem from "./SideBarItem.vue";
+
+const bmStore = useBookmarkStore();
 </script>
 
 <template>
@@ -8,84 +11,21 @@ import SideBarItem from "./SideBarItem.vue";
   >
     <SideBarItem
       src="https://uxwing.com/wp-content/themes/uxwing/download/44-hand-gestures/good.png"
-      title="menarik"
-      type="about"
+      title="about"
+      path="/"
+    />
+    <SideBarItem
+      src="https://static.vecteezy.com/system/resources/previews/001/200/145/original/books-png.png"
+      title="novel"
+      path="/novel"
     />
     <hr class="sidebar-hr" />
     <SideBarItem
-      src="https://toolboxpayment.com/wp-content/uploads/2021/06/facebook-600.png"
-      title="facebook"
-      type="anime"
-    />
-    <SideBarItem
-      src="https://static.vecteezy.com/system/resources/previews/004/263/114/original/meta-logo-meta-by-facebook-icon-editorial-logo-for-social-media-free-vector.jpg"
-      title="Meta"
-      type="novel"
-    />
-    <SideBarItem
-      src="https://uxwing.com/wp-content/themes/uxwing/download/44-hand-gestures/good.png"
-      title="menarik"
-      type="manga"
-    />
-    <SideBarItem
-      src="https://toolboxpayment.com/wp-content/uploads/2021/06/facebook-600.png"
-      title="facebook"
-      type="anime"
-    />
-    <SideBarItem
-      src="https://static.vecteezy.com/system/resources/previews/004/263/114/original/meta-logo-meta-by-facebook-icon-editorial-logo-for-social-media-free-vector.jpg"
-      title="Meta"
-      type="novel"
-    />
-    <SideBarItem
-      src="https://uxwing.com/wp-content/themes/uxwing/download/44-hand-gestures/good.png"
-      title="menarik"
-      type="manga"
-    />
-    <SideBarItem
-      src="https://toolboxpayment.com/wp-content/uploads/2021/06/facebook-600.png"
-      title="facebook"
-      type="anime"
-    />
-    <SideBarItem
-      src="https://static.vecteezy.com/system/resources/previews/004/263/114/original/meta-logo-meta-by-facebook-icon-editorial-logo-for-social-media-free-vector.jpg"
-      title="Meta"
-      type="novel"
-    />
-    <SideBarItem
-      src="https://uxwing.com/wp-content/themes/uxwing/download/44-hand-gestures/good.png"
-      title="menarik"
-      type="manga"
-    />
-    <SideBarItem
-      src="https://toolboxpayment.com/wp-content/uploads/2021/06/facebook-600.png"
-      title="facebook"
-      type="anime"
-    />
-    <SideBarItem
-      src="https://static.vecteezy.com/system/resources/previews/004/263/114/original/meta-logo-meta-by-facebook-icon-editorial-logo-for-social-media-free-vector.jpg"
-      title="Meta"
-      type="novel"
-    />
-    <SideBarItem
-      src="https://uxwing.com/wp-content/themes/uxwing/download/44-hand-gestures/good.png"
-      title="menarik"
-      type="manga"
-    />
-    <SideBarItem
-      src="https://toolboxpayment.com/wp-content/uploads/2021/06/facebook-600.png"
-      title="facebook"
-      type="anime"
-    />
-    <SideBarItem
-      src="https://static.vecteezy.com/system/resources/previews/004/263/114/original/meta-logo-meta-by-facebook-icon-editorial-logo-for-social-media-free-vector.jpg"
-      title="Meta"
-      type="novel"
-    />
-    <SideBarItem
-      src="https://uxwing.com/wp-content/themes/uxwing/download/44-hand-gestures/good.png"
-      title="menarik"
-      type="manga"
+      v-for="item in [...bmStore.bookmark.values()]"
+      :key="getBookmarkRoute(item)"
+      :src="item.currNovel?.posterUrl!"
+      :data="item"
+      :title="item.name"
     />
   </div>
 </template>

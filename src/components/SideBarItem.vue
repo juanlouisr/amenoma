@@ -1,23 +1,34 @@
-<script lang="ts">
-import { computed, defineComponent } from "@vue/runtime-core";
+<script setup lang="ts">
 import { useRoute } from "vue-router";
+import { computed } from "vue";
+import type { BookmarkData } from "@/models/main.model";
+import { getBookmarkRoute } from "@/stores/bookmark";
 
-export default defineComponent({
-  props: {
-    src: { type: String },
-    title: { type: String },
-    type: { type: String },
-  },
-  setup(props) {
-    const route = useRoute();
-    const isActive = computed(() => route.name == props.type);
-    return { isActive };
-  },
+const props = defineProps<{
+  data?: BookmarkData;
+  src: string;
+  title: string;
+  path?: string;
+}>();
+
+const route = useRoute();
+
+const isActive = computed<boolean>(() => {
+  if (props.data) {
+    return route.path.includes(getBookmarkRoute(props.data));
+  }
+  return route.path === props.path;
 });
 </script>
 
 <template>
-  <router-link :to="{ name: type }">
+  <router-link
+    :to="
+      data
+        ? `/${data.type}/${data.provider}/${data.nameRoute}`
+        : props.path ?? '/'
+    "
+  >
     <div
       class="relative flex items-center justify-center h-12 w-12 my-2 mr-2 group"
     >
@@ -26,10 +37,10 @@ export default defineComponent({
         :class="{ active: isActive, inactive: !isActive }"
       ></div>
       <img
-        :src="src"
+        :src="props.src"
         class="sidebar-icon"
         :class="[isActive ? 'sidebar-active' : '']"
-        :title="title"
+        :title="props.title"
       />
       <!-- <div class="sidebar-tooltip group-hover:scale-100">{{ title }}</div> -->
     </div>
