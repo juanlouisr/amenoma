@@ -4,6 +4,7 @@ import { useRoute, useRouter } from "vue-router";
 import { useNovelStore } from "@/stores/novel";
 import { useDataStore } from "@/stores/data";
 import type { SearchResponse } from "@/models/main.model";
+import SearchBar from "../../components/SearchBar.vue";
 
 const query = ref("");
 const searching = ref(false);
@@ -49,61 +50,23 @@ const truncate = (text: string, stop: number) => {
 <template>
   <div class="home flex flex-col">
     <h1 class="title my-3">{{ data.provider }}</h1>
-    <form
-      @submit.prevent="searchNovel()"
-      class="searchbar w-full md:w-2/3 mx-auto flex relative mb-1"
-    >
-      <div
-        v-if="searching"
-        class="loading absolute left-3 top-1.5 animate-spin h-7 w-7"
-      >
-        <img src="../../assets/loading.png" alt="loading" class="object-fit" />
-      </div>
-      <img
-        v-else
-        src="../../assets/search.png"
-        alt="search"
-        class="absolute left-2 top-1.5 h-4/6"
-        loading="lazy"
-      />
-      <input
-        class="rounded-full w-full h-11 text-xl shadow-lg overflow-x-hidden outline-none bg-gray-400 text-gray-700"
-        :value="query"
-        @input="inputEvent($event)"
-        autofocus
-      />
-    </form>
 
-    <div
-      v-if="searchResult.length"
-      class="w-[97%] p-2 bg-gray-800 flex flex-wrap my-4 mx-auto py-4 gap-y-5 gap-x-5 justify-center rounded-md justify-items-center"
-    >
+    <SearchBar :submit=searchNovel :searching=searching :query=query :input=inputEvent />
+
+    <div v-if="searchResult.length"
+      class="w-[97%] p-2 bg-gray-800 flex flex-wrap my-4 mx-auto py-4 gap-y-5 gap-x-5 justify-center rounded-md justify-items-center">
       <div v-for="(res, idx) in searchResult" :key="idx">
         <router-link :to="`/novel/${provider}/${res.nameRoute}`">
           <div class="res-card h-64 w-40 flex flex-col relative rounded-md">
-            <div
-              class="rating flex flex-row w-4/12 absolute"
-              v-if="res.rating ?? false"
-            >
+            <div class="rating flex flex-row w-4/12 absolute" v-if="res.rating ?? false">
               <h1 class="rating-score ml-3 mr-0.5">
                 {{ res.rating?.toString }}
               </h1>
-              <img
-                src="../../assets/star.png"
-                alt="star"
-                class="h-3/5 my-auto"
-              />
+              <img src="../../assets/star.png" alt="star" class="h-3/5 my-auto" />
             </div>
-            <img
-              :src="res.posterUrl ?? '#'"
-              alt="poster"
-              class="h-4/6 w-full object-fill rounded-top-md"
-            />
+            <img :src="res.posterUrl ?? '#'" alt="poster" class="h-4/6 w-full object-fill rounded-top-md" />
             <h1 class="text-sm p-1">{{ truncate(res.name, 32) }}</h1>
-            <h3
-              class="text-xs px-1 absolute bottom-3"
-              v-if="res.latestChapter ?? false"
-            >
+            <h3 class="text-xs px-1 absolute bottom-3" v-if="res.latestChapter ?? false">
               Chapter {{ res.latestChapter }}
             </h3>
           </div>
