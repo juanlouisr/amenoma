@@ -69,6 +69,7 @@ async function loadNovel() {
     data.currentContent = bm.currentContent;
     data.nextContent = bm.nextContent;
     data.currNovel = bm.currNovel;
+    return;
   } else {
     data.currNovel = await novelAPI.getNovelFromName(name);
     if (data.currNovel) {
