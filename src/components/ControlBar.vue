@@ -18,7 +18,7 @@ const bookmarked = computed(() => bmS.getBookmark(data.getRouteName));
 
 <template>
   <div
-    class="w-72 bg-gray-800 h-screen overflow-y-scroll no-scrollbar flex flex-col shrink-0"
+    class="w-60 bg-gray-800 h-screen overflow-y-scroll no-scrollbar flex flex-col shrink-0"
   >
     <div class="w-full min-h-max p-3 flex justify-between">
       <h1 class="text-white text-xl font-bold">
