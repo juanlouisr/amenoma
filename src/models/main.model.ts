@@ -17,9 +17,9 @@ export class SearchResponse {
     public url: string,
     public nameRoute: string,
     public apiName: string,
-    public rating?: number | null,
-    public posterUrl?: string | null,
-    public latestChapter?: string | null
+    public rating?: number | undefined,
+    public posterUrl?: string | undefined,
+    public latestChapter?: string | undefined
   ) {}
 }
 

@@ -16,5 +16,8 @@ export const usePreferencesStore = defineStore({
     toggleControlSideBar() {
       this.showControlSideBar = !this.showControlSideBar;
     },
+    hideControlSideBar() {
+      this.showControlSideBar = false;
+    },
   },
 });

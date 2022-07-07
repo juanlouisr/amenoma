@@ -19,7 +19,7 @@ const preferences = usePreferencesStore();
       <NavBar
         @toggle-side-control-bar="() => preferences.toggleControlSideBar()"
       ></NavBar>
-      <RouterView class="content" />
+      <RouterView class="content" @click="preferences.hideControlSideBar()" />
     </div>
   </div>
 </template>
