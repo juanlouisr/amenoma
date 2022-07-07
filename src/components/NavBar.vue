@@ -1,15 +1,42 @@
+<script setup lang="ts">
+import { useDataStore } from "@/stores/data";
+import { MenuIcon } from "@heroicons/vue/outline";
+import { ChevronRightIcon } from "@heroicons/vue/solid";
+
+const data = useDataStore();
+</script>
+
 <template>
-  <header class="flex bg-gray-900 shrink-0 h-16 w-full">
+  <header
+    class="flex bg-gray-700 shrink-0 h-16 w-full border-b border-gray-900"
+  >
     <button
-      class="burger my-auto mx-4 hover:cursor-pointer"
+      class="w-9 my-auto mx-4 hover:cursor-pointer shrink-0"
       @click="$emit('toggleSideControlBar')"
     >
-      <div class="space-y-2">
-        <div class="w-8 h-0.5 bg-white"></div>
-        <div class="w-8 h-0.5 bg-white"></div>
-        <div class="w-8 h-0.5 bg-white"></div>
-      </div>
+      <MenuIcon class="text-white" />
     </button>
-    <h1 class="my-auto mx-3 font-bold text-white">Judul animu</h1>
+    <router-link class="my-auto mx-1 font-bold text-white" :to="`/${data.type}`"
+      >{{ data.type }}
+    </router-link>
+    <ChevronRightIcon v-if="data.type" class="w-5 text-white" />
+    <router-link
+      v-if="data.type"
+      class="my-auto mx-1 font-bold text-white"
+      :to="`/${data.type}/${data.provider}`"
+    >
+      {{ data.provider }}
+    </router-link>
+    <ChevronRightIcon
+      v-if="data.type && data.provider"
+      class="w-5 text-white"
+    />
+    <router-link
+      v-if="data.type && data.provider"
+      class="my-auto mx-1 font-bold text-white"
+      :to="data.getRouteName"
+    >
+      {{ data.name }}
+    </router-link>
   </header>
 </template>
