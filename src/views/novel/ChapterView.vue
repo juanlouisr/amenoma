@@ -84,7 +84,7 @@ async function loadChapter(
   novel: LoadResponse,
   chapter: number
 ): Promise<void> {
-  if (chapter && chapter <= novel.data.length) {
+  if (chapter && chapter <= novel.data.length && chapter > 0) {
     if (data.currentIdx !== chapter - 1) {
       const val = await novelAPI.getChapter(novel.data[chapter - 1].url);
       if (!val) {
