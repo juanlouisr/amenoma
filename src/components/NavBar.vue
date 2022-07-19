@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { useDataStore } from "@/stores/data";
 import { MenuIcon } from "@heroicons/vue/outline";
-import { ChevronRightIcon } from "@heroicons/vue/solid";
+// import { ChevronRightIcon } from "@heroicons/vue/solid";
 
-// BUG: data tidak terupdate setelah router link to next/prev chapter karena component navbar tidak terrefresh
-// BUG: data tidak terupdate setelah ganti chapter dari controlbar karena component navbar tidak terrefresh
 const data = useDataStore();
-const judul = data.name || "Amenoma";
 </script>
 
 <template>
@@ -19,7 +16,7 @@ const judul = data.name || "Amenoma";
     >
       <MenuIcon class="text-white" />
     </button>
-    <router-link class="my-auto mx-1 font-bold text-white" :to="`/${data.type}`"
+    <!-- <router-link class="my-auto mx-1 font-bold text-white" :to="`/${data.type}`"
       >{{ data.type }}
     </router-link>
     <ChevronRightIcon v-if="data.type" class="w-5 text-white" />
@@ -40,8 +37,10 @@ const judul = data.name || "Amenoma";
       :to="data.getRouteName"
     >
       {{ data.name }}
-    </router-link>
-    <h1 class="my-auto mx-3 font-bold text-white">{{ judul }}</h1>
+    </router-link> -->
+    <h1 class="my-auto mx-3 font-bold text-white">
+      {{ data.name || "Amenoma" }}
+    </h1>
     <div class="navi my-auto flex-grow flex justify-end">
       <router-link :to="data.getRoutePrevChapter">
         <button class="mr-1 bg-white py-2 px-3 rounded-3xl">&larr;Prev</button>
