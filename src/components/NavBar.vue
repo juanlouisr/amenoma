@@ -41,7 +41,7 @@ const data = useDataStore();
     <h1 class="my-auto mx-3 font-bold text-white">
       {{ data.name || "Amenoma" }}
     </h1>
-    <div class="navi my-auto flex-grow flex justify-end">
+    <div class="navi my-auto flex-grow flex justify-end" v-if="data.name">
       <router-link :to="data.getRoutePrevChapter">
         <button class="mr-1 bg-white py-2 px-3 rounded-3xl">&larr;Prev</button>
       </router-link>
