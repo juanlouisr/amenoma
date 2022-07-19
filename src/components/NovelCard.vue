@@ -19,7 +19,7 @@ const truncate = (text: string, stop: number) => {
         <h1 class="rating-score ml-3 mr-0.5">
           {{ rating?.toString }}
         </h1>
-        <img src="../../assets/star.png" alt="star" class="h-3/5 my-auto" />
+        <img src="@/assets/star.png" alt="star" class="h-3/5 my-auto" />
       </div>
       <img
         :src="posterurl ?? '#'"
