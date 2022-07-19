@@ -7,8 +7,6 @@ import { ChevronRightIcon } from "@heroicons/vue/solid";
 // BUG: data tidak terupdate setelah ganti chapter dari controlbar karena component navbar tidak terrefresh
 const data = useDataStore();
 const judul = data.name || "Amenoma";
-let next = data.getRouteNextChapter;
-let prev = data.getRoutePrevChapter;
 </script>
 
 <template>
@@ -45,10 +43,10 @@ let prev = data.getRoutePrevChapter;
     </router-link>
     <h1 class="my-auto mx-3 font-bold text-white">{{ judul }}</h1>
     <div class="navi my-auto flex-grow flex justify-end">
-      <router-link :to="prev">
+      <router-link :to="data.getRoutePrevChapter">
         <button class="mr-1 bg-white py-2 px-3 rounded-3xl">&larr;Prev</button>
       </router-link>
-      <router-link :to="next">
+      <router-link :to="data.getRouteNextChapter">
         <button class="ml-2 mr-3 bg-white py-2 px-3 rounded-3xl">
           Next&rarr;
         </button>

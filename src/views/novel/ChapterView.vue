@@ -16,7 +16,7 @@ const router = useRouter();
 
 const provider = route.params.provider as string;
 const name = route.params.name as string;
-
+const root = ref<HTMLElement | null>(null);
 onBeforeMount(async () => {
   data.type = "novel";
   loaded.value = false;
@@ -37,6 +37,7 @@ watch(
         data.currentIdx++;
         loaded.value = true;
         data.nextContent = "";
+        root.value?.scrollIntoView();
         if (
           nextIdx + 1 !== data.currNovel?.data.length &&
           data.currNovel?.data[nextIdx + 1].url
@@ -107,6 +108,6 @@ async function loadChapter(
 <template>
   <div>
     <div v-if="!loaded"><LoadPage /></div>
-    <div v-else v-html="data.currentContent"></div>
+    <div v-else ref="root" v-html="data.currentContent"></div>
   </div>
 </template>
