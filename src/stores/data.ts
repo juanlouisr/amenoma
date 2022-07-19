@@ -34,6 +34,14 @@ export const useDataStore = defineStore({
     getRouteChapter: (state) => {
       return `/${state.type}/${state.provider}/${state.nameRoute}/${state.currentIdx}`;
     },
+    getRouteNextChapter: (state) => {
+      return `/${state.type}/${state.provider}/${state.nameRoute}/${
+        state.currentIdx + 2
+      }`;
+    },
+    getRoutePrevChapter: (state) => {
+      return `/${state.type}/${state.provider}/${state.nameRoute}/${state.currentIdx}`;
+    },
   },
   actions: {
     reset() {

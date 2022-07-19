@@ -8,14 +8,13 @@ const preferences = usePreferencesStore();
 </script>
 
 <template>
-  <div class="flex m-0 p-0">
-    <Transition name="sidebar">
-      <SideBar v-show="preferences.isShowControlSideBar" class="z-10" />
-    </Transition>
-    <Transition name="controlbar">
-      <ControlBar v-show="preferences.isShowControlSideBar" class="z-0" />
-    </Transition>
-    <div class="flex-grow h-screen flex flex-col overflow-x-hidden min-w-0">
+  <div class="flex m-0 p-0 relative">
+    <SideBar class="z-0" />
+    <ControlBar class="z-0" />
+    <div
+      class="flex-grow h-screen flex flex-col overflow-x-hidden min-w-0 absolute z-20 content-wrapper"
+      :class="{ opensidebar: preferences.isShowControlSideBar }"
+    >
       <NavBar
         @toggle-side-control-bar="() => preferences.toggleControlSideBar()"
       ></NavBar>
@@ -25,37 +24,15 @@ const preferences = usePreferencesStore();
 </template>
 
 <style>
-.sidebar-enter-active {
-  transition: all 0.1s ease-in;
+.opensidebar {
+  transition: left 0.3s ease-out, width 0.3s ease-out;
+  left: 19rem !important;
+  width: calc(100vw - 19rem) !important;
 }
 
-.sidebar-leave-active {
-  transition: all 0.1s ease-in;
-  transition-delay: 0.1s;
-}
-
-.sidebar-enter-from {
-  transform: translateX(-100%);
-}
-
-.sidebar-leave-to {
-  transform: translateX(-100%);
-}
-
-.controlbar-enter-active {
-  transition: all 0.1s ease-in;
-  transition-delay: 0.1s;
-}
-
-.controlbar-leave-active {
-  transition: all 0.1s ease-in;
-}
-
-.controlbar-enter-from {
-  transform: translateY(-100%);
-}
-
-.controlbar-leave-to {
-  transform: translateY(-100%);
+.content-wrapper {
+  transition: left 0.3s ease-out, width 0.3s ease-out;
+  width: 100vw;
+  left: 0;
 }
 </style>
